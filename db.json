@@ -1,0 +1,125 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Obsidian Chronograph",
+      "price": 890,
+      "category": "Watches",
+      "description": "Swiss-movement chronograph with a matte black ceramic case and sapphire crystal. Water resistant to 100m.",
+      "image": "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=600&q=80",
+      "badge": "Limited",
+      "stock": 4
+    },
+    {
+      "id": 2,
+      "name": "Noir Leather Bifold",
+      "price": 195,
+      "category": "Accessories",
+      "description": "Full-grain calfskin leather, hand-stitched gold thread. Holds 8 cards. Ages beautifully.",
+      "image": "https://images.unsplash.com/photo-1627123424574-724758594e93?w=600&q=80",
+      "badge": "",
+      "stock": 18
+    },
+    {
+      "id": 3,
+      "name": "24K Gold Fountain Pen",
+      "price": 320,
+      "category": "Writing",
+      "description": "Matte black resin barrel with 24K gold-plated nib. Writes with rare, effortless precision.",
+      "image": "https://images.unsplash.com/photo-1585336261022-680e295ce3fe?w=600&q=80",
+      "badge": "Bestseller",
+      "stock": 9
+    },
+    {
+      "id": 4,
+      "name": "Velvet Candle — Oud",
+      "price": 78,
+      "category": "Home",
+      "description": "Hand-poured soy wax in a matte black vessel. Notes of aged oud, cedarwood, and dark amber. 60-hour burn.",
+      "image": "https://images.unsplash.com/photo-1603905085927-e7a4e4dbfb0a?w=600&q=80",
+      "badge": "New",
+      "stock": 30
+    },
+    {
+      "id": 5,
+      "name": "Carbon Silk Tie",
+      "price": 145,
+      "category": "Apparel",
+      "description": "100% Mulberry silk with a subtle carbon-weave texture. Cut in Milan. Width 7.5cm.",
+      "image": "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=600&q=80",
+      "badge": "",
+      "stock": 22
+    },
+    {
+      "id": 6,
+      "name": "Ebony Chess Set",
+      "price": 640,
+      "category": "Home",
+      "description": "Hand-carved ebony and maple pieces on a lacquered board with brass inlay corners. A statement object.",
+      "image": "https://images.unsplash.com/photo-1586165368502-1bad197a6461?w=600&q=80",
+      "badge": "Limited",
+      "stock": 3
+    },
+    {
+      "id": 7,
+      "name": "Midnight Tote",
+      "price": 410,
+      "category": "Bags",
+      "description": "Structured pebbled leather with brass hardware. Fits a 15\" laptop. Unlined interior shows raw leather.",
+      "image": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80",
+      "badge": "",
+      "stock": 7
+    },
+    {
+      "id": 8,
+      "name": "Black Label Whisky Glass",
+      "price": 95,
+      "category": "Home",
+      "description": "Set of 2. Hand-blown crystal with a weighted base and gold rim. Dishwasher safe.",
+      "image": "https://images.unsplash.com/photo-1527281400683-1aae777175f8?w=600&q=80",
+      "badge": "",
+      "stock": 14
+    },
+    {
+      "id": 9,
+      "name": "Merino Overcoat",
+      "price": 1200,
+      "category": "Apparel",
+      "description": "Double-faced Merino wool in charcoal black. Unstructured shoulders, horn buttons. Made in Florence.",
+      "image": "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=600&q=80",
+      "badge": "New",
+      "stock": 6
+    },
+    {
+      "id": 10,
+      "name": "Onyx Cufflinks",
+      "price": 185,
+      "category": "Accessories",
+      "description": "Natural black onyx set in gold-plated sterling silver. Engravable. Presented in a silk-lined box.",
+      "image": "https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=600&q=80",
+      "badge": "",
+      "stock": 20
+    },
+    {
+      "id": 11,
+      "name": "Gold-Dipped Card Case",
+      "price": 125,
+      "category": "Accessories",
+      "description": "Brushed stainless steel with 18K gold-dipped edges. Holds 12 cards. Magnetically sealed.",
+      "image": "https://images.unsplash.com/photo-1512909006721-3d6018887383?w=600&q=80",
+      "badge": "Bestseller",
+      "stock": 25
+    },
+    {
+      "id": 12,
+      "name": "Leather Journal",
+      "price": 88,
+      "category": "Writing",
+      "description": "Full-grain black leather cover, hand-stitched spine, 200 pages of 120gsm ivory laid paper. A book worth filling.",
+      "image": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80",
+      "badge": "",
+      "stock": 40
+    }
+  ],
+  "cart": []
+}
