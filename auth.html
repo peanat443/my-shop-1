@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NOIR — Access</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:      #0a0a09;
+      --black-soft: #111110;
+      --black-card: #141413;
+      --black-hover:#1c1c1a;
+      --border:     #242420;
+      --border-gold:#8a7340;
+      --gold:       #c9a84c;
+      --gold-light: #e8c97a;
+      --gold-dim:   #6b5829;
+      --white:      #f5f3ee;
+      --white-soft: #ccc8bc;
+      --white-dim:  #888270;
+      --red:        #a83232;
+      --green:      #3a7a4a;
+      --radius:     2px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── LEFT PANEL ── */
+    .left-panel {
+      width: 45%;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 860px) {
+      .left-panel { display: none; }
+      .right-panel { width: 100%; }
+    }
+
+    .left-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.3) saturate(0.5);
+      transition: filter 1s;
+    }
+
+    .left-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 3.5rem;
+    }
+
+    .left-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 300;
+      letter-spacing: 0.4em;
+      color: var(--white);
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .left-logo em { color: var(--gold); font-style: normal; }
+
+    .left-body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+    .left-eyebrow {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .left-eyebrow::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--gold-dim);
+    }
+
+    .left-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 4vw, 3.8rem);
+      font-weight: 300;
+      line-height: 1.08;
+      letter-spacing: 0.03em;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+
+    .left-heading em { font-style: italic; color: var(--gold); }
+
+    .left-sub {
+      font-size: 0.75rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: var(--white-dim);
+      line-height: 2;
+      max-width: 340px;
+    }
+
+    .left-footer {
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      color: var(--white-dim);
+      text-transform: uppercase;
+    }
+
+    .left-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--gold-dim);
+      margin: 2rem 0;
+    }
+
+    /* ── RIGHT PANEL ── */
+    .right-panel {
+      flex: 1;
+      background: var(--black-soft);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+      position: relative;
+      border-left: 1px solid var(--border);
+    }
+
+    .right-panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold-dim), var(--gold), var(--gold-dim), transparent);
+    }
+
+    .auth-box {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    /* ── TABS ── */
+    .auth-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2.5rem;
+    }
+
+    .tab-btn {
+      flex: 1;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 14px 0;
+      background: transparent;
+      border: none;
+      color: var(--white-dim);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+    .tab-btn:hover:not(.active) { color: var(--white-soft); }
+
+    /* ── FORM PANELS ── */
+    .form-panel { display: none; }
+    .form-panel.active { display: block; }
+
+    .form-eyebrow {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 0.6rem;
+    }
+
+    .form-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-sub {
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      color: var(--white-dim);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+
+    /* ── FIELD ── */
+    .field {
+      margin-bottom: 1.1rem;
+    }
+
+    .field label {
+      display: block;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white-dim);
+      margin-bottom: 0.5rem;
+    }
+
+    .field input {
+      width: 100%;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      background: var(--black-card);
+      border: 1px solid var(--border);
+      color: var(--white);
+      padding: 13px 16px;
+      outline: none;
+      transition: border-color 0.2s;
+      border-radius: var(--radius);
+      -webkit-appearance: none;
+    }
+
+    .field input::placeholder { color: var(--white-dim); opacity: 0.5; }
+    .field input:focus { border-color: var(--gold-dim); }
+    .field input.error { border-color: var(--red); }
+    .field input.valid { border-color: var(--green); }
+
+    .field-error {
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      color: #c87070;
+      margin-top: 0.4rem;
+      display: none;
+    }
+
+    .field-error.show { display: block; }
+
+    /* name row */
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    /* ── PASSWORD WRAPPER ── */
+    .password-wrap { position: relative; }
+    .password-wrap input { padding-right: 44px; }
+
+    .show-pw {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--white-dim);
+      cursor: pointer;
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      padding: 0;
+      transition: color 0.2s;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .show-pw:hover { color: var(--gold); }
+
+    /* ── STRENGTH BAR ── */
+    .strength-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3px;
+      margin-top: 6px;
+    }
+
+    .strength-seg {
+      height: 2px;
+      background: var(--border);
+      border-radius: 1px;
+      transition: background 0.3s;
+    }
+
+    .strength-seg.weak   { background: var(--red); }
+    .strength-seg.fair   { background: var(--amber, #c97a2a); }
+    .strength-seg.good   { background: var(--gold); }
+    .strength-seg.strong { background: var(--green); }
+
+    .strength-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white-dim);
+      margin-top: 4px;
+    }
+
+    /* ── CHECKBOX ── */
+    .check-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+
+    .check-row input[type="checkbox"] {
+      width: 14px;
+      height: 14px;
+      margin-top: 2px;
+      accent-color: var(--gold);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .check-row label {
+      font-size: 0.66rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      color: var(--white-dim);
+      line-height: 1.7;
+      cursor: pointer;
+    }
+
+    .check-row label a { color: var(--gold); text-decoration: none; }
+    .check-row label a:hover { text-decoration: underline; }
+
+    /* ── SUBMIT BUTTON ── */
+    .auth-btn {
+      width: 100%;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 16px;
+      border: 1px solid var(--gold);
+      background: transparent;
+      color: var(--gold);
+      cursor: pointer;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 1.25rem;
+    }
+
+    .auth-btn:hover { background: var(--gold); color: var(--black); }
+
+    .auth-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .auth-btn:disabled:hover { background: transparent; color: var(--gold); }
+
+    .auth-btn .btn-spinner {
+      display: none;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--gold);
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      margin: 0 auto;
+    }
+
+    .auth-btn.loading .btn-text { display: none; }
+    .auth-btn.loading .btn-spinner { display: block; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── OR DIVIDER ── */
+    .or-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      color: var(--white-dim);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .or-divider::before, .or-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── SWITCH LINK ── */
+    .switch-text {
+      text-align: center;
+      font-size: 0.68rem;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: var(--white-dim);
+    }
+
+    .switch-text button {
+      background: none;
+      border: none;
+      color: var(--gold);
+      cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      padding: 0;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .switch-text button:hover { color: var(--gold-light); }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--black-card);
+      border: 1px solid var(--border-gold);
+      color: var(--gold);
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 12px 28px;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+      z-index: 999;
+      white-space: nowrap;
+    }
+
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.success { border-color: #3a7a4a; color: #6acf8a; }
+    .toast.error { border-color: #8a3232; color: #c87070; }
+
+    /* ── SUCCESS STATE ── */
+    .auth-success {
+      display: none;
+      text-align: center;
+      padding: 2rem 0;
+    }
+
+    .auth-success.show { display: block; }
+
+    .success-icon {
+      font-size: 2.5rem;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      animation: pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes pop { from { transform: scale(0.3); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    .success-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+
+    .success-sub {
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: var(--white-dim);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+
+    .redirect-bar {
+      height: 2px;
+      background: var(--border);
+      border-radius: 1px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .redirect-fill {
+      height: 100%;
+      background: var(--gold);
+      width: 0%;
+      transition: width 2.5s linear;
+    }
+
+    /* ── FORGOT PASSWORD ── */
+    .forgot-link {
+      text-align: right;
+      margin-top: -0.6rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .forgot-link button {
+      background: none;
+      border: none;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: var(--white-dim);
+      cursor: pointer;
+      transition: color 0.2s;
+      padding: 0;
+    }
+
+    .forgot-link button:hover { color: var(--gold); }
+
+    /* ── FOOTER ── */
+    .auth-footer {
+      position: absolute;
+      bottom: 1.5rem;
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      color: var(--white-dim);
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    <div class="left-bg" id="left-bg"></div>
+    <div class="left-content">
+      <div class="left-logo"><em>N</em>OIR</div>
+
+      <div class="left-body">
+        <div class="left-eyebrow">Member Access</div>
+        <h1 class="left-heading">Objects of<br><em>Rare Distinction</em></h1>
+        <div class="left-divider"></div>
+        <p class="left-sub">
+          Join a curated circle of discerning collectors. Members receive early access to limited editions, bespoke concierge service, and exclusive invitations to private previews.
+        </p>
+      </div>
+
+      <div class="left-footer">© NOIR · Est. MMXXIV · All rights reserved</div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel">
+    <div class="auth-box">
+
+      <!-- TABS -->
+      <div class="auth-tabs">
+        <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">Sign In</button>
+        <button class="tab-btn" id="tab-signup" onclick="switchTab('signup')">Create Account</button>
+      </div>
+
+      <!-- ═══ LOGIN FORM ═══ -->
+      <div class="form-panel active" id="panel-login">
+        <p class="form-eyebrow">Welcome Back</p>
+        <h2 class="form-heading">Sign In</h2>
+        <p class="form-sub">Access your account and exclusive member benefits.</p>
+
+        <div class="field">
+          <label for="login-email">Email Address</label>
+          <input type="email" id="login-email" placeholder="your@email.com" autocomplete="email" />
+          <p class="field-error" id="login-email-err">Please enter a valid email address.</p>
+        </div>
+
+        <div class="field">
+          <label for="login-password">Password</label>
+          <div class="password-wrap">
+            <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" />
+            <button class="show-pw" onclick="togglePw('login-password', this)" tabindex="-1">Show</button>
+          </div>
+          <p class="field-error" id="login-pw-err">Invalid email or password.</p>
+        </div>
+
+        <div class="forgot-link">
+          <button onclick="showToast('Password reset coming soon — contact concierge@noir.com', 'info')">Forgot password?</button>
+        </div>
+
+        <button class="auth-btn" id="login-btn" onclick="handleLogin()">
+          <span class="btn-text">Enter</span>
+          <span class="btn-spinner"></span>
+        </button>
+
+        <div class="or-divider">or</div>
+
+        <p class="switch-text">
+          New to NOIR? <button onclick="switchTab('signup')">Create an account</button>
+        </p>
+      </div>
+
+      <!-- ═══ SIGNUP FORM ═══ -->
+      <div class="form-panel" id="panel-signup">
+        <p class="form-eyebrow">Membership</p>
+        <h2 class="form-heading">Create Account</h2>
+        <p class="form-sub">Join the NOIR circle and unlock exclusive member privileges.</p>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="su-first">First Name</label>
+            <input type="text" id="su-first" placeholder="Dorian" autocomplete="given-name" />
+            <p class="field-error" id="su-first-err">Required.</p>
+          </div>
+          <div class="field">
+            <label for="su-last">Last Name</label>
+            <input type="text" id="su-last" placeholder="Gray" autocomplete="family-name" />
+            <p class="field-error" id="su-last-err">Required.</p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="su-email">Email Address</label>
+          <input type="email" id="su-email" placeholder="your@email.com" autocomplete="email" />
+          <p class="field-error" id="su-email-err">Please enter a valid email address.</p>
+        </div>
+
+        <div class="field">
+          <label for="su-password">Password</label>
+          <div class="password-wrap">
+            <input type="password" id="su-password" placeholder="Minimum 8 characters" autocomplete="new-password" oninput="checkStrength(this.value)" />
+            <button class="show-pw" onclick="togglePw('su-password', this)" tabindex="-1">Show</button>
+          </div>
+          <div class="strength-bar">
+            <div class="strength-seg" id="seg1"></div>
+            <div class="strength-seg" id="seg2"></div>
+            <div class="strength-seg" id="seg3"></div>
+            <div class="strength-seg" id="seg4"></div>
+          </div>
+          <p class="strength-label" id="strength-label"></p>
+          <p class="field-error" id="su-pw-err">Password must be at least 8 characters.</p>
+        </div>
+
+        <div class="field">
+          <label for="su-confirm">Confirm Password</label>
+          <div class="password-wrap">
+            <input type="password" id="su-confirm" placeholder="••••••••" autocomplete="new-password" />
+            <button class="show-pw" onclick="togglePw('su-confirm', this)" tabindex="-1">Show</button>
+          </div>
+          <p class="field-error" id="su-confirm-err">Passwords do not match.</p>
+        </div>
+
+        <div class="check-row">
+          <input type="checkbox" id="su-terms" />
+          <label for="su-terms">
+            I agree to the <a href="#">Terms of Membership</a> and <a href="#">Privacy Policy</a>. I consent to receiving exclusive communications from NOIR.
+          </label>
+        </div>
+
+        <button class="auth-btn" id="signup-btn" onclick="handleSignup()">
+          <span class="btn-text">Create Account</span>
+          <span class="btn-spinner"></span>
+        </button>
+
+        <div class="or-divider">or</div>
+
+        <p class="switch-text">
+          Already a member? <button onclick="switchTab('login')">Sign in</button>
+        </p>
+      </div>
+
+      <!-- ═══ SUCCESS STATE ═══ -->
+      <div class="auth-success" id="auth-success">
+        <div class="success-icon">◈</div>
+        <h2 class="success-title" id="success-title">Welcome to NOIR</h2>
+        <p class="success-sub" id="success-sub">Your membership has been created. You are being escorted to the collection.</p>
+        <div class="redirect-bar"><div class="redirect-fill" id="redirect-fill"></div></div>
+        <button class="auth-btn" onclick="redirectToShop()">
+          <span class="btn-text">Enter the Collection</span>
+        </button>
+      </div>
+
+    </div>
+
+    <p class="auth-footer">NOIR · Membership Access</p>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+<script>
+  // ════════════════════════════════════
+  // DB — reads/writes users to localStorage
+  // simulating a JSON database
+  // ════════════════════════════════════
+  const DB_KEY = 'noir_db';
+
+  function loadDB() {
+    try {
+      const raw = localStorage.getItem(DB_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch(e) {}
+    // Default DB structure (matches db.json shape)
+    return {
+      products: [],   // products are managed by index.html
+      users: [],
+      cart: []
+    };
+  }
+
+  function saveDB(db) {
+    try {
+      localStorage.setItem(DB_KEY, JSON.stringify(db));
+      return true;
+    } catch(e) {
+      return false;
+    }
+  }
+
+  // User helpers
+  function getUsers() {
+    return loadDB().users || [];
+  }
+
+  function findUser(email) {
+    return getUsers().find(u => u.email.toLowerCase() === email.toLowerCase());
+  }
+
+  function createUser(userData) {
+    const db = loadDB();
+    if (!db.users) db.users = [];
+    const id = Date.now();
+    const user = {
+      id,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      email: userData.email.toLowerCase(),
+      passwordHash: simpleHash(userData.password),
+      createdAt: new Date().toISOString(),
+      lastLoginAt: new Date().toISOString(),
+      wishlist: [],
+      orders: []
+    };
+    db.users.push(user);
+    saveDB(db);
+    return user;
+  }
+
+  function updateLastLogin(email) {
+    const db = loadDB();
+    const user = db.users.find(u => u.email.toLowerCase() === email.toLowerCase());
+    if (user) {
+      user.lastLoginAt = new Date().toISOString();
+      saveDB(db);
+    }
+  }
+
+  // Very simple deterministic hash (for demo — not for production)
+  function simpleHash(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      const chr = str.charCodeAt(i);
+      hash = ((hash << 5) - hash) + chr;
+      hash |= 0;
+    }
+    return 'h' + Math.abs(hash).toString(36);
+  }
+
+  // Session helpers
+  function setSession(user) {
+    const session = {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      loggedInAt: new Date().toISOString()
+    };
+    localStorage.setItem('noir_session', JSON.stringify(session));
+  }
+
+  function getSession() {
+    try {
+      const raw = localStorage.getItem('noir_session');
+      return raw ? JSON.parse(raw) : null;
+    } catch(e) { return null; }
+  }
+
+  // If already logged in, send to shop
+  if (getSession()) {
+    window.location.href = 'index.html';
+  }
+
+  // ════════════════════════════════════
+  // UI HELPERS
+  // ════════════════════════════════════
+  let toastTimer;
+  function showToast(msg, type = 'default') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast';
+    if (type === 'success') t.classList.add('success');
+    if (type === 'error')   t.classList.add('error');
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    document.getElementById('panel-' + tab).classList.add('active');
+    clearErrors();
+
+    // Swap background image for visual variation
+    const bg = document.getElementById('left-bg');
+    if (tab === 'signup') {
+      bg.style.backgroundImage = "url('https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=1200&q=80')";
+    } else {
+      bg.style.backgroundImage = "url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80')";
+    }
+  }
+
+  function clearErrors() {
+    document.querySelectorAll('.field-error').forEach(e => e.classList.remove('show'));
+    document.querySelectorAll('.field input').forEach(i => i.classList.remove('error', 'valid'));
+  }
+
+  function showError(inputId, errId) {
+    const input = document.getElementById(inputId);
+    const err = document.getElementById(errId);
+    if (input) input.classList.add('error');
+    if (err) err.classList.add('show');
+  }
+
+  function setLoading(btnId, loading) {
+    const btn = document.getElementById(btnId);
+    btn.disabled = loading;
+    btn.classList.toggle('loading', loading);
+  }
+
+  function togglePw(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (input.type === 'password') {
+      input.type = 'text';
+      btn.textContent = 'Hide';
+    } else {
+      input.type = 'password';
+      btn.textContent = 'Show';
+    }
+  }
+
+  // ════════════════════════════════════
+  // PASSWORD STRENGTH
+  // ════════════════════════════════════
+  function checkStrength(pw) {
+    const segs = [document.getElementById('seg1'), document.getElementById('seg2'),
+                  document.getElementById('seg3'), document.getElementById('seg4')];
+    const label = document.getElementById('strength-label');
+
+    segs.forEach(s => { s.className = 'strength-seg'; });
+    if (!pw) { label.textContent = ''; return; }
+
+    let score = 0;
+    if (pw.length >= 8)  score++;
+    if (pw.length >= 12) score++;
+    if (/[A-Z]/.test(pw) && /[a-z]/.test(pw)) score++;
+    if (/[0-9]/.test(pw) || /[^A-Za-z0-9]/.test(pw)) score++;
+
+    const levels = ['weak', 'fair', 'good', 'strong'];
+    const labels = ['Weak', 'Fair', 'Good', 'Strong'];
+    for (let i = 0; i < score; i++) segs[i].classList.add(levels[score - 1]);
+    label.textContent = score > 0 ? labels[score - 1] : '';
+  }
+
+  // ════════════════════════════════════
+  // VALIDATION
+  // ════════════════════════════════════
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  // ════════════════════════════════════
+  // LOGIN
+  // ════════════════════════════════════
+  function handleLogin() {
+    clearErrors();
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+
+    let valid = true;
+
+    if (!isValidEmail(email)) {
+      showError('login-email', 'login-email-err');
+      valid = false;
+    }
+
+    if (!password) {
+      document.getElementById('login-password').classList.add('error');
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    setLoading('login-btn', true);
+
+    // Simulate async (as if fetching from a server)
+    setTimeout(() => {
+      const user = findUser(email);
+      if (!user || user.passwordHash !== simpleHash(password)) {
+        document.getElementById('login-pw-err').textContent = 'Invalid email or password.';
+        showError('login-password', 'login-pw-err');
+        showError('login-email', null);
+        document.getElementById('login-email').classList.add('error');
+        showToast('Invalid credentials. Please try again.', 'error');
+        setLoading('login-btn', false);
+        return;
+      }
+
+      updateLastLogin(email);
+      setSession(user);
+      showLoginSuccess(user);
+      setLoading('login-btn', false);
+    }, 900);
+  }
+
+  // ════════════════════════════════════
+  // SIGN UP
+  // ════════════════════════════════════
+  function handleSignup() {
+    clearErrors();
+    const firstName = document.getElementById('su-first').value.trim();
+    const lastName  = document.getElementById('su-last').value.trim();
+    const email     = document.getElementById('su-email').value.trim();
+    const password  = document.getElementById('su-password').value;
+    const confirm   = document.getElementById('su-confirm').value;
+    const terms     = document.getElementById('su-terms').checked;
+
+    let valid = true;
+
+    if (!firstName) { showError('su-first', 'su-first-err'); valid = false; }
+    if (!lastName)  { showError('su-last', 'su-last-err');   valid = false; }
+
+    if (!isValidEmail(email)) { showError('su-email', 'su-email-err'); valid = false; }
+    else if (findUser(email)) {
+      document.getElementById('su-email-err').textContent = 'An account with this email already exists.';
+      showError('su-email', 'su-email-err');
+      valid = false;
+    }
+
+    if (password.length < 8) { showError('su-password', 'su-pw-err'); valid = false; }
+
+    if (password !== confirm || !confirm) {
+      showError('su-confirm', 'su-confirm-err');
+      valid = false;
+    }
+
+    if (!terms) {
+      showToast('Please agree to the Terms of Membership to continue.', 'error');
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    setLoading('signup-btn', true);
+
+    setTimeout(() => {
+      const user = createUser({ firstName, lastName, email, password });
+      setSession(user);
+
+      document.getElementById('success-title').textContent = `Welcome, ${firstName}`;
+      document.getElementById('success-sub').textContent =
+        'Your membership has been created and your details have been saved. You are being escorted to the collection.';
+
+      showSuccess();
+      setLoading('signup-btn', false);
+      showToast('Account created successfully.', 'success');
+    }, 1100);
+  }
+
+  // ════════════════════════════════════
+  // SUCCESS & REDIRECT
+  // ════════════════════════════════════
+  function showLoginSuccess(user) {
+    document.getElementById('success-title').textContent = `Welcome back, ${user.firstName}`;
+    document.getElementById('success-sub').textContent =
+      'You have been signed in. Redirecting you to the collection…';
+    showSuccess();
+  }
+
+  function showSuccess() {
+    document.querySelectorAll('.auth-tabs, .form-panel').forEach(el => el.style.display = 'none');
+    const successEl = document.getElementById('auth-success');
+    successEl.classList.add('show');
+
+    // Animate progress bar then redirect
+    setTimeout(() => {
+      const fill = document.getElementById('redirect-fill');
+      fill.style.width = '100%';
+    }, 100);
+
+    setTimeout(() => redirectToShop(), 2700);
+  }
+
+  function redirectToShop() {
+    window.location.href = 'index.html';
+  }
+
+  // ════════════════════════════════════
+  // KEYBOARD SUPPORT
+  // ════════════════════════════════════
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      const loginActive = document.getElementById('panel-login').classList.contains('active');
+      if (loginActive) handleLogin();
+      else handleSignup();
+    }
+  });
+</script>
+</body>
+</html>
