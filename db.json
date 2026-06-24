@@ -1,0 +1,65 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Minimal Canvas Tote",
+      "price": 38,
+      "category": "Bags",
+      "description": "Heavy-duty natural canvas with a clean, uncluttered design. Fits a laptop, books, and everything in between.",
+      "image": "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=600&q=80",
+      "badge": "Bestseller",
+      "stock": 12
+    },
+    {
+      "id": 2,
+      "name": "Ceramic Pour-Over Set",
+      "price": 64,
+      "category": "Kitchen",
+      "description": "Hand-thrown stoneware dripper and carafe. Brews a clean, nuanced cup — slow mornings made beautiful.",
+      "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80",
+      "badge": "New",
+      "stock": 5
+    },
+    {
+      "id": 3,
+      "name": "Linen Throw Blanket",
+      "price": 89,
+      "category": "Home",
+      "description": "Stone-washed Portuguese linen. Gets softer with every wash. Available in sand, slate, and sage.",
+      "image": "https://images.unsplash.com/photo-1580301762395-21ce84d00bc6?w=600&q=80",
+      "badge": "",
+      "stock": 20
+    },
+    {
+      "id": 4,
+      "name": "Leather Card Wallet",
+      "price": 45,
+      "category": "Accessories",
+      "description": "Full-grain vegetable-tanned leather. Holds 6 cards and folds flat in your front pocket.",
+      "image": "https://images.unsplash.com/photo-1627123424574-724758594e93?w=600&q=80",
+      "badge": "",
+      "stock": 30
+    },
+    {
+      "id": 5,
+      "name": "Bamboo Desk Organizer",
+      "price": 52,
+      "category": "Home",
+      "description": "Modular bamboo tray system. Configures into 6 layouts — keeps your desk clear without looking sterile.",
+      "image": "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=600&q=80",
+      "badge": "Sale",
+      "stock": 8
+    },
+    {
+      "id": 6,
+      "name": "Glass Water Bottle",
+      "price": 28,
+      "category": "Kitchen",
+      "description": "Borosilicate glass with a silicone sleeve. No plastic taste, no aftertaste. Just water.",
+      "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=600&q=80",
+      "badge": "",
+      "stock": 25
+    }
+  ],
+  "cart": []
+}
