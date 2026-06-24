@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NOIR — Luxury Objects</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:      #0a0a09;
+      --black-soft: #111110;
+      --black-card: #141413;
+      --black-hover:#1c1c1a;
+      --border:     #242420;
+      --border-gold:#8a7340;
+      --gold:       #c9a84c;
+      --gold-light: #e8c97a;
+      --gold-dim:   #6b5829;
+      --white:      #f5f3ee;
+      --white-soft: #ccc8bc;
+      --white-dim:  #888270;
+      --red:        #a83232;
+      --amber:      #c97a2a;
+      --green:      #3a7a4a;
+      --radius:     2px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── PAGE SYSTEM ── */
+    .page { display: none; min-height: 100vh; }
+    .page.active { display: block; }
+
+    /* ════════════════════════════════════
+       INTRO PAGE
+    ════════════════════════════════════ */
+    #page-intro {
+      position: relative;
+      height: 100vh;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    #page-intro.active { display: flex; }
+
+    .intro-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.35) saturate(0.6);
+    }
+
+    .intro-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem;
+      max-width: 700px;
+    }
+
+    .intro-eyebrow {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .intro-eyebrow::before, .intro-eyebrow::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 1px;
+      background: var(--gold-dim);
+    }
+
+    .intro-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(5rem, 15vw, 10rem);
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 1.5rem;
+    }
+
+    .intro-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--white-soft);
+      letter-spacing: 0.08em;
+      margin-bottom: 3rem;
+      line-height: 1.6;
+    }
+
+    .intro-enter {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      padding: 16px 48px;
+      border: 1px solid var(--gold);
+      background: transparent;
+      color: var(--gold);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .intro-enter:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    .intro-scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--white-dim);
+      text-transform: uppercase;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+    /* ════════════════════════════════════
+       SHOP PAGE
+    ════════════════════════════════════ */
+    #page-shop { display: none; }
+    #page-shop.active { display: block; }
+
+    /* MARQUEE */
+    .marquee-bar {
+      background: var(--gold);
+      color: var(--black);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 8px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .marquee-inner {
+      display: inline-block;
+      animation: marquee 28s linear infinite;
+    }
+
+    .marquee-inner span { padding: 0 3rem; }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--black);
+      border-bottom: 1px solid var(--border);
+      padding: 0 3rem;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 300;
+      letter-spacing: 0.35em;
+      color: var(--white);
+      text-decoration: none;
+      text-transform: uppercase;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .nav-logo em { color: var(--gold); font-style: normal; }
+
+    .nav-center { display: flex; gap: 0; }
+
+    .filter-btn {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border: none;
+      border-bottom: 2px solid transparent;
+      background: transparent;
+      color: var(--white-dim);
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .filter-btn:hover { color: var(--white); }
+    .filter-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+
+    .cart-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 10px 22px;
+      border: 1px solid var(--border-gold);
+      background: transparent;
+      color: var(--gold);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .cart-btn:hover { background: var(--gold); color: var(--black); }
+
+    .wishlist-nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 10px 18px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--white-dim);
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .wishlist-nav-btn:hover { border-color: var(--border-gold); color: var(--gold); }
+
+    .cart-count, .wishlist-count {
+      background: var(--gold);
+      color: var(--black);
+      font-size: 0.6rem;
+      font-weight: 700;
+      min-width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 3px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .cart-btn:hover .cart-count { background: var(--black); color: var(--gold); }
+
+    /* HERO */
+    .shop-hero {
+      padding: 5rem 3rem 4rem;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .hero-eyebrow::before, .hero-eyebrow::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--gold-dim);
+    }
+
+    .shop-hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 7vw, 5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: 0.05em;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+
+    .shop-hero h1 em { font-style: italic; color: var(--gold); }
+
+    .shop-hero p {
+      font-size: 0.82rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: var(--white-dim);
+      line-height: 2;
+    }
+
+    /* PRODUCTS */
+    .products-section {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2rem 3rem 6rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 1.25rem;
+      margin-bottom: 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .section-header-right { display: flex; align-items: center; gap: 1.5rem; }
+    #result-count { font-size: 0.68rem; letter-spacing: 0.1em; color: var(--white-dim); text-transform: uppercase; }
+
+    /* Sort select */
+    .sort-select {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.63rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--black-card);
+      border: 1px solid var(--border);
+      color: var(--white-dim);
+      padding: 6px 12px;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .sort-select:focus { border-color: var(--gold); color: var(--white); }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1px;
+      background: var(--border);
+    }
+
+    /* CARD */
+    .card { background: var(--black-card); display: flex; flex-direction: column; transition: background 0.25s; position: relative; }
+    .card:hover { background: var(--black-hover); }
+
+    .card-img-wrap {
+      position: relative;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      background: #0f0f0e;
+    }
+
+    .card-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(0.88) saturate(0.8);
+      transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.4s;
+    }
+
+    .card.out-of-stock .card-img-wrap img { filter: brightness(0.5) saturate(0.2); }
+    .card:hover .card-img-wrap img { transform: scale(1.06); filter: brightness(0.95) saturate(0.9); }
+
+    .badge {
+      position: absolute;
+      top: 16px; right: 16px;
+      font-size: 0.58rem; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      padding: 5px 10px;
+      background: var(--gold); color: var(--black);
+    }
+
+    .badge-limited { background: #1a1a18; color: var(--gold); border: 1px solid var(--border-gold); }
+    .badge-preorder { background: #1a1218; color: #d4a0c8; border: 1px solid #6b3a5a; }
+    .badge-soldout { background: #1a1010; color: #c88080; border: 1px solid #5a2a2a; }
+
+    /* Wishlist heart button on card */
+    .wish-btn {
+      position: absolute;
+      top: 14px; left: 14px;
+      background: rgba(10,10,9,0.65);
+      border: 1px solid var(--border);
+      color: var(--white-dim);
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 0.9rem;
+      transition: all 0.2s;
+      backdrop-filter: blur(4px);
+      z-index: 2;
+    }
+    .wish-btn:hover, .wish-btn.wished { color: #c84a6b; border-color: #8a3050; }
+    .wish-btn.wished { background: rgba(80,20,40,0.5); }
+
+    .card-body {
+      padding: 1.25rem 1.5rem 1.5rem;
+      display: flex; flex-direction: column; flex: 1;
+      border-top: 1px solid var(--border);
+    }
+
+    .card-category { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-dim); margin-bottom: 0.5rem; }
+    .card-name { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 400; letter-spacing: 0.04em; color: var(--white); margin-bottom: 0.5rem; line-height: 1.3; }
+    .card-desc { font-size: 0.72rem; font-weight: 300; letter-spacing: 0.04em; color: var(--white-dim); line-height: 1.8; flex: 1; margin-bottom: 0.75rem; }
+
+    /* Stock indicator */
+    .stock-indicator {
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .stock-dot {
+      width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+    }
+    .stock-high { color: var(--white-dim); }
+    .stock-high .stock-dot { background: var(--green); }
+    .stock-low { color: #d4893a; }
+    .stock-low .stock-dot { background: var(--amber); animation: pulse 1.5s ease-in-out infinite; }
+    .stock-critical { color: #c87070; }
+    .stock-critical .stock-dot { background: var(--red); animation: pulse 1s ease-in-out infinite; }
+    .stock-out { color: #888; }
+    .stock-out .stock-dot { background: #444; }
+    .stock-preorder { color: #c0a0d4; }
+    .stock-preorder .stock-dot { background: #9060b0; }
+
+    .card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 1rem; border-top: 1px solid var(--border);
+      gap: 8px;
+    }
+
+    .card-price { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; color: var(--gold); flex-shrink: 0; }
+    .card-price-orig { font-size: 0.75rem; color: var(--white-dim); text-decoration: line-through; margin-left: 4px; }
+
+    .add-btn {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.58rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 9px 14px;
+      border: 1px solid var(--border-gold); background: transparent; color: var(--gold);
+      cursor: pointer; transition: all 0.2s; white-space: nowrap;
+    }
+
+    .add-btn:hover, .add-btn.added { background: var(--gold); color: var(--black); border-color: var(--gold); }
+    .add-btn.preorder-btn { border-color: #6b3a5a; color: #d4a0c8; }
+    .add-btn.preorder-btn:hover { background: #6b3a5a; color: var(--white); }
+    .add-btn.notify-btn { border-color: var(--border); color: var(--white-dim); }
+    .add-btn.notify-btn:hover { border-color: var(--border-gold); color: var(--gold); }
+    .add-btn.notify-btn.notified { border-color: #3a6a4a; color: #6acf8a; }
+
+    .empty-state { text-align: center; padding: 5rem 2rem; color: var(--white-dim); display: none; font-size: 0.8rem; letter-spacing: 0.1em; }
+
+    /* ── CART DRAWER ── */
+    .cart-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; }
+    .cart-overlay.open { display: block; }
+
+    .cart-drawer {
+      position: fixed; top: 0; right: 0; height: 100vh; width: 420px; max-width: 95vw;
+      background: var(--black-soft); border-left: 1px solid var(--border);
+      z-index: 201; display: flex; flex-direction: column;
+      transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .cart-drawer.open { transform: translateX(0); }
+
+    .cart-drawer-header {
+      padding: 1.5rem 2rem; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .cart-drawer-header h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; }
+
+    .close-btn {
+      background: none; border: 1px solid var(--border); color: var(--white-dim);
+      font-size: 0.9rem; cursor: pointer; width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+    }
+
+    .close-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+    .cart-items { flex: 1; overflow-y: auto; padding: 1.5rem 2rem; }
+    .cart-items::-webkit-scrollbar { width: 4px; }
+    .cart-items::-webkit-scrollbar-thumb { background: var(--border-gold); }
+
+    .cart-item { display: flex; gap: 14px; padding: 1.25rem 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+    .cart-item img { width: 70px; height: 70px; object-fit: cover; filter: brightness(0.85); flex-shrink: 0; }
+    .cart-item-info { flex: 1; }
+    .cart-item-cat { font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-dim); margin-bottom: 3px; }
+    .cart-item-name { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; color: var(--white); margin-bottom: 4px; }
+    .cart-item-price { font-size: 0.75rem; color: var(--gold); font-weight: 500; }
+    .cart-item-type { font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: #9060b0; margin-top: 2px; }
+
+    /* Quantity control in cart */
+    .cart-item-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+    .qty-control { display: flex; align-items: center; gap: 0; }
+    .qty-btn {
+      background: var(--black-card); border: 1px solid var(--border);
+      color: var(--white-dim); width: 26px; height: 26px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 0.85rem; transition: all 0.15s; user-select: none;
+    }
+    .qty-btn:hover { border-color: var(--border-gold); color: var(--gold); }
+    .qty-num { 
+      width: 32px; height: 26px; background: var(--black-card);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem; font-weight: 600; color: var(--white);
+    }
+
+    .remove-item { background: none; border: none; color: var(--white-dim); cursor: pointer; font-size: 0.75rem; padding: 4px; transition: color 0.15s; flex-shrink: 0; }
+    .remove-item:hover { color: #c0392b; }
+
+    .cart-footer { padding: 1.5rem 2rem; border-top: 1px solid var(--border); }
+
+    .cart-total { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem; }
+    .cart-total-label { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white-dim); }
+    .cart-total-amount { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 600; color: var(--gold); }
+
+    .cart-shipping-note { font-size: 0.6rem; letter-spacing: 0.1em; color: var(--white-dim); margin-bottom: 1.25rem; text-align: right; }
+    .cart-shipping-note.free { color: #6acf8a; }
+
+    .checkout-btn {
+      width: 100%; font-family: 'Montserrat', sans-serif; font-size: 0.65rem;
+      font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 16px; border: 1px solid var(--gold); background: var(--gold); color: var(--black);
+      cursor: pointer; transition: all 0.2s;
+    }
+
+    .checkout-btn:hover { background: transparent; color: var(--gold); }
+    .cart-empty-msg { text-align: center; padding: 3rem 1rem; color: var(--white-dim); font-size: 0.75rem; letter-spacing: 0.1em; }
+
+    /* ── WISHLIST DRAWER ── */
+    .wishlist-drawer {
+      position: fixed; top: 0; left: 0; height: 100vh; width: 380px; max-width: 95vw;
+      background: var(--black-soft); border-right: 1px solid var(--border);
+      z-index: 201; display: flex; flex-direction: column;
+      transform: translateX(-100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+    .wishlist-drawer.open { transform: translateX(0); }
+    .wishlist-drawer-header {
+      padding: 1.5rem 2rem; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .wishlist-drawer-header h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; }
+    .wishlist-items { flex: 1; overflow-y: auto; padding: 1.5rem 2rem; }
+    .wishlist-item { display: flex; gap: 14px; padding: 1rem 0; border-bottom: 1px solid var(--border); align-items: center; }
+    .wishlist-item img { width: 60px; height: 60px; object-fit: cover; filter: brightness(0.85); flex-shrink: 0; }
+    .wishlist-item-info { flex: 1; }
+    .wishlist-item-name { font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; color: var(--white); margin-bottom: 3px; }
+    .wishlist-item-price { font-size: 0.72rem; color: var(--gold); font-weight: 500; }
+    .wishlist-move-btn {
+      font-size: 0.58rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 6px 10px; border: 1px solid var(--border-gold); background: transparent; color: var(--gold);
+      cursor: pointer; transition: all 0.2s; white-space: nowrap; margin-right: 8px;
+    }
+    .wishlist-move-btn:hover { background: var(--gold); color: var(--black); }
+    .wishlist-remove { background: none; border: none; color: var(--white-dim); cursor: pointer; font-size: 0.75rem; transition: color 0.15s; }
+    .wishlist-remove:hover { color: #c0392b; }
+    .wishlist-empty { text-align: center; padding: 3rem 1rem; color: var(--white-dim); font-size: 0.75rem; letter-spacing: 0.1em; }
+
+    /* ════════════════════════════════════
+       CHECKOUT PAGE
+    ════════════════════════════════════ */
+    #page-checkout { display: none; }
+    #page-checkout.active { display: block; }
+
+    .checkout-nav {
+      background: var(--black); border-bottom: 1px solid var(--border);
+      padding: 0 3rem; height: 68px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .back-btn {
+      font-family: 'Montserrat', sans-serif; font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      background: none; border: 1px solid var(--border); color: var(--white-dim);
+      padding: 8px 18px; cursor: pointer; transition: all 0.2s;
+    }
+
+    .back-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+    .checkout-steps {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white-dim);
+    }
+
+    .step { padding: 4px 12px; }
+    .step.done { color: var(--gold-dim); }
+    .step.active { color: var(--gold); font-weight: 600; }
+    .step-sep { color: var(--border-gold); }
+
+    .checkout-layout {
+      max-width: 1100px; margin: 0 auto; padding: 3rem 2rem 6rem;
+      display: grid; grid-template-columns: 1fr 380px; gap: 3rem;
+    }
+
+    /* Form side */
+    .checkout-form-section h2 {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 400;
+      letter-spacing: 0.08em; color: var(--white); margin-bottom: 0.4rem;
+    }
+
+    .checkout-form-section .sub {
+      font-size: 0.72rem; color: var(--white-dim); letter-spacing: 0.06em; margin-bottom: 2rem;
+    }
+
+    .form-group { margin-bottom: 1.25rem; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    .form-group label {
+      display: block; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--gold-dim); margin-bottom: 0.5rem;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%; padding: 13px 16px;
+      background: var(--black-card); border: 1px solid var(--border);
+      color: var(--white); font-family: 'Montserrat', sans-serif; font-size: 0.82rem;
+      outline: none; transition: border-color 0.2s;
+      appearance: none;
+    }
+
+    .form-group input:focus, .form-group select:focus { border-color: var(--gold); }
+    .form-group input::placeholder { color: var(--white-dim); }
+
+    .form-section-label {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin: 2rem 0 1rem; padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-icons { display: flex; gap: 8px; margin-bottom: 1rem; }
+    .card-icon {
+      padding: 4px 10px; border: 1px solid var(--border); font-size: 0.65rem;
+      color: var(--white-dim); letter-spacing: 0.05em;
+    }
+
+    .place-order-btn {
+      width: 100%; font-family: 'Montserrat', sans-serif; font-size: 0.72rem;
+      font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 18px; border: 1px solid var(--gold); background: var(--gold); color: var(--black);
+      cursor: pointer; transition: all 0.2s; margin-top: 1.5rem;
+    }
+
+    .place-order-btn:hover { background: transparent; color: var(--gold); }
+
+    .secure-note {
+      text-align: center; font-size: 0.62rem; color: var(--white-dim);
+      letter-spacing: 0.08em; margin-top: 1rem;
+    }
+
+    /* Order summary side */
+    .order-summary {
+      background: var(--black-card); border: 1px solid var(--border);
+      padding: 1.75rem; align-self: start; position: sticky; top: 1rem;
+    }
+
+    .order-summary h3 {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--white);
+      padding-bottom: 1rem; border-bottom: 1px solid var(--border); margin-bottom: 1rem;
+    }
+
+    .summary-item {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 0.9rem 0; border-bottom: 1px solid var(--border);
+    }
+
+    .summary-item img { width: 56px; height: 56px; object-fit: cover; filter: brightness(0.85); flex-shrink: 0; }
+    .summary-item-info { flex: 1; }
+    .summary-item-name { font-family: 'Cormorant Garamond', serif; font-size: 0.92rem; color: var(--white); margin-bottom: 2px; }
+    .summary-item-cat { font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-dim); }
+    .summary-item-qty { font-size: 0.65rem; color: var(--white-dim); margin-top: 2px; }
+    .summary-item-type { font-size: 0.58rem; color: #c0a0d4; text-transform: uppercase; letter-spacing: 0.1em; }
+    .summary-item-price { font-size: 0.82rem; color: var(--gold); font-weight: 600; white-space: nowrap; }
+
+    .summary-totals { margin-top: 1.25rem; }
+    .summary-row {
+      display: flex; justify-content: space-between;
+      font-size: 0.72rem; color: var(--white-dim); letter-spacing: 0.06em;
+      padding: 0.4rem 0;
+    }
+
+    .summary-row.total {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.15rem;
+      color: var(--white); padding-top: 1rem; border-top: 1px solid var(--border);
+      margin-top: 0.5rem;
+    }
+
+    .summary-row.total span:last-child { color: var(--gold); font-weight: 600; }
+
+    /* Preorder notice in checkout */
+    .preorder-notice {
+      margin-top: 1rem; padding: 10px 14px;
+      border: 1px solid #6b3a5a; background: rgba(80,20,60,0.15);
+      font-size: 0.62rem; letter-spacing: 0.08em; color: #c0a0d4; line-height: 1.7;
+    }
+
+    /* ── SUCCESS PAGE ── */
+    #page-success { display: none; }
+    #page-success.active {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      min-height: 100vh; text-align: center; padding: 3rem;
+    }
+
+    .success-icon {
+      width: 80px; height: 80px; border: 1px solid var(--gold);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; margin-bottom: 2rem;
+    }
+
+    .success-title {
+      font-family: 'Cormorant Garamond', serif; font-size: 2.8rem;
+      font-weight: 300; letter-spacing: 0.08em; color: var(--white);
+      margin-bottom: 0.75rem; font-style: italic;
+    }
+
+    .success-sub {
+      font-size: 0.78rem; color: var(--white-dim); letter-spacing: 0.1em;
+      line-height: 2; max-width: 480px; margin-bottom: 2.5rem;
+    }
+
+    .success-order-num {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 2.5rem;
+    }
+
+    .continue-btn {
+      font-family: 'Montserrat', sans-serif; font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 14px 40px; border: 1px solid var(--border-gold);
+      background: transparent; color: var(--gold); cursor: pointer; transition: all 0.2s;
+    }
+
+    .continue-btn:hover { background: var(--gold); color: var(--black); }
+
+    /* TOAST */
+    .toast {
+      position: fixed; bottom: 2rem; left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--gold); color: var(--black);
+      padding: 11px 26px; font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 300; white-space: nowrap;
+    }
+
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.toast-purple { background: #7a3a8a; color: var(--white); }
+    .toast.toast-red { background: #3a1a1a; color: #c88080; border: 1px solid #6a2a2a; }
+    .toast.toast-green { background: #1a3a2a; color: #6acf8a; border: 1px solid #2a6a3a; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border); padding: 2.5rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase; color: var(--white-dim); }
+    .footer-logo em { color: var(--gold); font-style: normal; }
+    .footer-copy { font-size: 0.65rem; letter-spacing: 0.1em; color: var(--white-dim); opacity: 0.5; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .checkout-layout { grid-template-columns: 1fr; }
+      .order-summary { position: static; }
+    }
+
+    @media (max-width: 768px) {
+      nav, .checkout-nav { padding: 0 1.25rem; }
+      .nav-center { display: none; }
+      .shop-hero { padding: 3rem 1.5rem 2rem; }
+      .products-section { padding: 1rem 0 4rem; }
+      .product-grid { grid-template-columns: 1fr 1fr; }
+      footer { padding: 2rem 1.5rem; flex-direction: column; gap: 1rem; text-align: center; }
+      .checkout-layout { padding: 2rem 1.25rem 4rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .checkout-steps { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .product-grid { grid-template-columns: 1fr; }
+      .card-desc { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ INTRO PAGE ══ -->
+<div id="page-intro" class="page active">
+  <div class="intro-bg"></div>
+  <div class="intro-content">
+    <p class="intro-eyebrow">Maison Noir · Est. 2024</p>
+    <h1 class="intro-logo">NOIR</h1>
+    <p class="intro-tagline">Objects chosen for their craft,<br>their material, and their refusal to shout.</p>
+    <button class="intro-enter" onclick="showPage('shop')">Enter the Collection</button>
+  </div>
+  <p class="intro-scroll-hint">▼ Enter</p>
+</div>
+
+<!-- ══ SHOP PAGE ══ -->
+<div id="page-shop" class="page">
+  <div class="marquee-bar" aria-hidden="true">
+    <div class="marquee-inner">
+      <span>Free shipping on orders over $500</span><span>·</span>
+      <span>Complimentary gift wrapping</span><span>·</span>
+      <span>Authenticity guaranteed</span><span>·</span>
+      <span>Preorder available on select items</span><span>·</span>
+      <span>Returns within 30 days</span><span>·</span>
+      <span>Free shipping on orders over $500</span><span>·</span>
+      <span>Complimentary gift wrapping</span><span>·</span>
+      <span>Authenticity guaranteed</span><span>·</span>
+      <span>Preorder available on select items</span><span>·</span>
+      <span>Returns within 30 days</span><span>·</span>
+    </div>
+  </div>
+
+  <nav>
+    <button class="nav-logo" onclick="showPage('intro')">NO<em>I</em>R</button>
+    <div class="nav-center">
+      <button class="filter-btn active" data-cat="All">All</button>
+      <button class="filter-btn" data-cat="Watches">Watches</button>
+      <button class="filter-btn" data-cat="Accessories">Accessories</button>
+      <button class="filter-btn" data-cat="Apparel">Apparel</button>
+      <button class="filter-btn" data-cat="Home">Home</button>
+      <button class="filter-btn" data-cat="Writing">Writing</button>
+      <button class="filter-btn" data-cat="Bags">Bags</button>
+    </div>
+    <div class="nav-right">
+      <button class="wishlist-nav-btn" id="wishlist-toggle">
+        ♡ Saved <span class="wishlist-count" id="wishlist-count">0</span>
+      </button>
+      <button class="cart-btn" id="cart-toggle">
+        Cart <span class="cart-count" id="cart-count">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="shop-hero">
+    <p class="hero-eyebrow">The Collection</p>
+    <h1>Luxury refined.<br><em>Quietly.</em></h1>
+    <p>Each piece chosen for its craft, its material, and its refusal to shout.</p>
+  </div>
+
+  <section class="products-section">
+    <div class="section-header">
+      <span class="section-title">All Pieces</span>
+      <div class="section-header-right">
+        <select class="sort-select" id="sort-select">
+          <option value="default">Sort: Default</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="name-asc">Name: A–Z</option>
+          <option value="availability">Availability</option>
+        </select>
+        <span id="result-count"></span>
+      </div>
+    </div>
+    <div class="product-grid" id="product-grid"></div>
+    <div class="empty-state" id="empty-state">No pieces in this category.</div>
+  </section>
+
+  <footer>
+    <span class="footer-logo">NO<em>I</em>R</span>
+    <span class="footer-copy">© 2025 Noir. All rights reserved.</span>
+  </footer>
+</div>
+
+<!-- ══ CART DRAWER ══ -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-drawer" id="cart-drawer">
+  <div class="cart-drawer-header">
+    <h3>Your Selection</h3>
+    <button class="close-btn" id="close-cart">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-total">
+      <span class="cart-total-label">Total</span>
+      <span class="cart-total-amount" id="cart-total-display">$0</span>
+    </div>
+    <p class="cart-shipping-note" id="cart-shipping-note"></p>
+    <button class="checkout-btn" onclick="goToCheckout()">Proceed to Checkout →</button>
+  </div>
+</aside>
+
+<!-- ══ WISHLIST DRAWER ══ -->
+<aside class="wishlist-drawer" id="wishlist-drawer">
+  <div class="wishlist-drawer-header">
+    <h3>Saved Pieces</h3>
+    <button class="close-btn" id="close-wishlist">✕</button>
+  </div>
+  <div class="wishlist-items" id="wishlist-items"></div>
+</aside>
+
+<!-- ══ CHECKOUT PAGE ══ -->
+<div id="page-checkout" class="page">
+  <div class="checkout-nav">
+    <button class="back-btn" onclick="showPage('shop')">← Back to Shop</button>
+    <button class="nav-logo" onclick="showPage('intro')">NO<em>I</em>R</button>
+    <div class="checkout-steps">
+      <span class="step done">Cart</span>
+      <span class="step-sep">›</span>
+      <span class="step active">Checkout</span>
+      <span class="step-sep">›</span>
+      <span class="step">Confirmation</span>
+    </div>
+  </div>
+
+  <div class="checkout-layout">
+    <!-- LEFT: Form -->
+    <div class="checkout-form-section">
+      <h2>Complete your order</h2>
+      <p class="sub">All orders are packaged in signature matte black boxes with gold ribbon.</p>
+
+      <p class="form-section-label">Contact Information</p>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="you@example.com" id="f-email" />
+      </div>
+
+      <p class="form-section-label">Shipping Address</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="James" id="f-first" />
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="Noir" id="f-last" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Address</label>
+        <input type="text" placeholder="123 Luxury Lane" id="f-address" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>City</label>
+          <input type="text" placeholder="New York" id="f-city" />
+        </div>
+        <div class="form-group">
+          <label>Postal Code</label>
+          <input type="text" placeholder="10001" id="f-zip" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Country</label>
+        <select id="f-country">
+          <option value="">Select country…</option>
+          <option>United States</option>
+          <option>United Kingdom</option>
+          <option>France</option>
+          <option>Germany</option>
+          <option>Japan</option>
+          <option>Australia</option>
+          <option>Singapore</option>
+          <option>Taiwan</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <p class="form-section-label">Payment Details</p>
+      <div class="card-icons">
+        <span class="card-icon">VISA</span>
+        <span class="card-icon">MC</span>
+        <span class="card-icon">AMEX</span>
+        <span class="card-icon">PayPal</span>
+      </div>
+      <div class="form-group">
+        <label>Card Number</label>
+        <input type="text" placeholder="1234 5678 9012 3456" id="f-card" maxlength="19" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Expiry Date</label>
+          <input type="text" placeholder="MM / YY" id="f-expiry" maxlength="7" />
+        </div>
+        <div class="form-group">
+          <label>CVV</label>
+          <input type="text" placeholder="•••" id="f-cvv" maxlength="4" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Name on Card</label>
+        <input type="text" placeholder="James Noir" id="f-cardname" />
+      </div>
+
+      <button class="place-order-btn" onclick="placeOrder()">Place Order →</button>
+      <p class="secure-note">🔒 Secure 256-bit SSL encryption · Your data is never stored</p>
+    </div>
+
+    <!-- RIGHT: Order Summary -->
+    <div class="order-summary">
+      <h3>Order Summary</h3>
+      <div id="summary-items"></div>
+      <div class="summary-totals">
+        <div class="summary-row"><span>Subtotal</span><span id="summary-subtotal">$0</span></div>
+        <div class="summary-row"><span>Shipping</span><span id="summary-shipping">Free</span></div>
+        <div class="summary-row"><span>Gift Wrapping</span><span>Complimentary</span></div>
+        <div class="summary-row total"><span>Total</span><span id="summary-total">$0</span></div>
+      </div>
+      <div id="preorder-notice" style="display:none" class="preorder-notice">
+        ✦ Your order includes preorder items. These will be dispatched separately when they become available, estimated within 4–6 weeks.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SUCCESS PAGE ══ -->
+<div id="page-success" class="page">
+  <div class="success-icon">✦</div>
+  <h1 class="success-title">Order Confirmed.</h1>
+  <p class="success-order-num" id="order-number">Order #NOIR-000000</p>
+  <p class="success-sub" id="success-sub">
+    Thank you for your order. Your pieces will be carefully packaged in our signature matte black boxes and dispatched within 24 hours.<br><br>
+    A confirmation has been sent to your email.
+  </p>
+  <button class="continue-btn" onclick="startOver()">Continue Shopping</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ════════════════════════════════════
+  // DATABASE (from db.json structure, extended with preorder states)
+  // ════════════════════════════════════
+  const DB = {
+    products: [
+      { id:1,  name:"Obsidian Chronograph",    price:890,  category:"Watches",     description:"Swiss-movement chronograph with a matte black ceramic case and sapphire crystal. Water resistant to 100m.",                        image:"https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=600&q=80", badge:"Limited",    stock:4,  preorderOnly:false },
+      { id:2,  name:"Noir Leather Bifold",      price:195,  category:"Accessories", description:"Full-grain calfskin leather, hand-stitched gold thread. Holds 8 cards. Ages beautifully.",                                        image:"https://images.unsplash.com/photo-1627123424574-724758594e93?w=600&q=80", badge:"",            stock:18, preorderOnly:false },
+      { id:3,  name:"24K Gold Fountain Pen",    price:320,  category:"Writing",     description:"Matte black resin barrel with 24K gold-plated nib. Writes with rare, effortless precision.",                                       image:"https://images.unsplash.com/photo-1585336261022-680e295ce3fe?w=600&q=80", badge:"Bestseller",  stock:9,  preorderOnly:false },
+      { id:4,  name:"Velvet Candle — Oud",      price:78,   category:"Home",        description:"Hand-poured soy wax in a matte black vessel. Notes of aged oud, cedarwood, and dark amber. 60-hour burn.",                         image:"https://images.unsplash.com/photo-1603905085927-e7a4e4dbfb0a?w=600&q=80", badge:"New",         stock:30, preorderOnly:false },
+      { id:5,  name:"Carbon Silk Tie",          price:145,  category:"Apparel",     description:"100% Mulberry silk with a subtle carbon-weave texture. Cut in Milan. Width 7.5cm.",                                               image:"https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=600&q=80", badge:"",            stock:22, preorderOnly:false },
+      { id:6,  name:"Ebony Chess Set",          price:640,  category:"Home",        description:"Hand-carved ebony and maple pieces on a lacquered board with brass inlay corners. A statement object.",                            image:"https://images.unsplash.com/photo-1586165368502-1bad197a6461?w=600&q=80", badge:"Limited",    stock:3,  preorderOnly:false },
+      { id:7,  name:"Midnight Tote",            price:410,  category:"Bags",        description:"Structured pebbled leather with brass hardware. Fits a 15\" laptop. Unlined interior shows raw leather.",                          image:"https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80", badge:"",            stock:7,  preorderOnly:false },
+      { id:8,  name:"Black Label Whisky Glass", price:95,   category:"Home",        description:"Set of 2. Hand-blown crystal with a weighted base and gold rim. Dishwasher safe.",                                                 image:"https://images.unsplash.com/photo-1527281400683-1aae777175f8?w=600&q=80", badge:"",            stock:14, preorderOnly:false },
+      { id:9,  name:"Merino Overcoat",          price:1200, category:"Apparel",     description:"Double-faced Merino wool in charcoal black. Unstructured shoulders, horn buttons. Made in Florence.",                              image:"https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=600&q=80", badge:"New",         stock:6,  preorderOnly:false },
+      { id:10, name:"Onyx Cufflinks",           price:185,  category:"Accessories", description:"Natural black onyx set in gold-plated sterling silver. Engravable. Presented in a silk-lined box.",                                image:"https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=600&q=80", badge:"",            stock:20, preorderOnly:false },
+      { id:11, name:"Gold-Dipped Card Case",    price:125,  category:"Accessories", description:"Brushed stainless steel with 18K gold-dipped edges. Holds 12 cards. Magnetically sealed.",                                        image:"https://images.unsplash.com/photo-1512909006721-3d6018887383?w=600&q=80", badge:"Bestseller",  stock:25, preorderOnly:false },
+      { id:12, name:"Leather Journal",          price:88,   category:"Writing",     description:"Full-grain black leather cover, hand-stitched spine, 200 pages of 120gsm ivory laid paper. A book worth filling.",                 image:"https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80", badge:"",            stock:40, preorderOnly:false },
+      // Preorder-only items (stock=0, ships in ~6 weeks)
+      { id:13, name:"Noir Signet Ring",         price:560,  category:"Accessories", description:"Sterling silver with a matte black enamel face. Engravable. Ships in 4–6 weeks, made to order.",                                   image:"https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=600&q=80", badge:"Preorder",   stock:0,  preorderOnly:true  },
+      { id:14, name:"Obsidian Desk Clock",      price:420,  category:"Home",        description:"Solid brass movement, matte obsidian case, gold indices. Limited production of 200 units. Ships in 4–6 weeks.",                    image:"https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=600&q=80", badge:"Preorder",   stock:0,  preorderOnly:true  },
+    ]
+  };
+
+  // ════════════════════════════════════
+  // PERSISTENT STATE (localStorage)
+  // ════════════════════════════════════
+  function loadState() {
+    try {
+      const saved = localStorage.getItem('noir_state');
+      if (saved) return JSON.parse(saved);
+    } catch(e) {}
+    return { cart: [], wishlist: [], notifications: [] };
+  }
+
+  function saveState() {
+    try {
+      localStorage.setItem('noir_state', JSON.stringify({ cart, wishlist, notifications }));
+    } catch(e) {}
+  }
+
+  let state = loadState();
+  let cart = state.cart || [];
+  let wishlist = state.wishlist || [];
+  let notifications = state.notifications || [];
+  let activeCategory = 'All';
+  let sortMode = 'default';
+
+  // Hydrate cart & wishlist product data from DB (in case DB changed)
+  cart = cart.map(c => {
+    const fresh = DB.products.find(p => p.id === c.id);
+    return fresh ? { ...fresh, qty: c.qty || 1, isPreorder: c.isPreorder || false } : null;
+  }).filter(Boolean);
+
+  wishlist = wishlist.filter(id => DB.products.some(p => p.id === id));
+
+  // ════════════════════════════════════
+  // STOCK HELPERS
+  // ════════════════════════════════════
+  function getStockStatus(p) {
+    if (p.preorderOnly) return 'preorder';
+    if (p.stock === 0) return 'out';
+    if (p.stock <= 3) return 'critical';
+    if (p.stock <= 8) return 'low';
+    return 'high';
+  }
+
+  function stockLabel(p) {
+    const s = getStockStatus(p);
+    if (s === 'preorder') return { cls: 'stock-preorder', text: 'Available to Preorder' };
+    if (s === 'out')      return { cls: 'stock-out',      text: 'Sold Out' };
+    if (s === 'critical') return { cls: 'stock-critical', text: `Only ${p.stock} left` };
+    if (s === 'low')      return { cls: 'stock-low',      text: `${p.stock} remaining` };
+    return { cls: 'stock-high', text: 'In Stock' };
+  }
+
+  // ════════════════════════════════════
+  // PAGE NAVIGATION
+  // ════════════════════════════════════
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    window.scrollTo(0, 0);
+    closeCart();
+    closeWishlist();
+  }
+
+  function goToCheckout() {
+    if (cart.length === 0) { showToast('Your selection is empty'); return; }
+    renderCheckoutSummary();
+    showPage('checkout');
+  }
+
+  // ════════════════════════════════════
+  // RENDER SHOP
+  // ════════════════════════════════════
+  function getSortedFiltered() {
+    let list = activeCategory === 'All' ? [...DB.products] : DB.products.filter(p => p.category === activeCategory);
+    if (sortMode === 'price-asc')    list.sort((a,b) => a.price - b.price);
+    if (sortMode === 'price-desc')   list.sort((a,b) => b.price - a.price);
+    if (sortMode === 'name-asc')     list.sort((a,b) => a.name.localeCompare(b.name));
+    if (sortMode === 'availability') list.sort((a,b) => {
+      const order = { high:0, low:1, critical:2, preorder:3, out:4 };
+      return order[getStockStatus(a)] - order[getStockStatus(b)];
+    });
+    return list;
+  }
+
+  function renderProducts() {
+    const grid = document.getElementById('product-grid');
+    const empty = document.getElementById('empty-state');
+    const count = document.getElementById('result-count');
+    const filtered = getSortedFiltered();
+    count.textContent = `${filtered.length} piece${filtered.length !== 1 ? 's' : ''}`;
+
+    if (filtered.length === 0) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+    empty.style.display = 'none';
+
+    grid.innerHTML = filtered.map(p => {
+      const status = getStockStatus(p);
+      const sl = stockLabel(p);
+      const inCart = cart.some(c => c.id === p.id);
+      const inWish = wishlist.includes(p.id);
+      const isNotified = notifications.includes(p.id);
+
+      let badge = '';
+      if (p.badge === 'Limited')  badge = `<span class="badge badge-limited">Limited</span>`;
+      else if (p.badge === 'Preorder') badge = `<span class="badge badge-preorder">Preorder</span>`;
+      else if (status === 'out' && !p.preorderOnly) badge = `<span class="badge badge-soldout">Sold Out</span>`;
+      else if (p.badge) badge = `<span class="badge">${p.badge}</span>`;
+
+      let actionBtn = '';
+      if (status === 'out' && !p.preorderOnly) {
+        actionBtn = isNotified
+          ? `<button class="add-btn notify-btn notified" data-id="${p.id}" onclick="toggleNotify(${p.id})">✓ Notify me</button>`
+          : `<button class="add-btn notify-btn" data-id="${p.id}" onclick="toggleNotify(${p.id})">Notify me</button>`;
+      } else if (status === 'preorder') {
+        actionBtn = inCart
+          ? `<button class="add-btn added" data-id="${p.id}">✓ Reserved</button>`
+          : `<button class="add-btn preorder-btn" data-id="${p.id}" onclick="addToCart(${p.id}, true)">Preorder</button>`;
+      } else {
+        actionBtn = inCart
+          ? `<button class="add-btn added" data-id="${p.id}">✓ Added</button>`
+          : `<button class="add-btn" data-id="${p.id}" onclick="addToCart(${p.id}, false)">Add to cart</button>`;
+      }
+
+      return `
+        <article class="card${status === 'out' && !p.preorderOnly ? ' out-of-stock' : ''}">
+          <div class="card-img-wrap">
+            <button class="wish-btn${inWish ? ' wished' : ''}" onclick="toggleWishlist(${p.id})" title="${inWish ? 'Remove from saved' : 'Save for later'}">
+              ${inWish ? '♥' : '♡'}
+            </button>
+            <img src="${p.image}" alt="${p.name}" loading="lazy" />
+            ${badge}
+          </div>
+          <div class="card-body">
+            <p class="card-category">${p.category}</p>
+            <h3 class="card-name">${p.name}</h3>
+            <p class="card-desc">${p.description}</p>
+            <div class="stock-indicator ${sl.cls}">
+              <span class="stock-dot"></span>${sl.text}
+            </div>
+            <div class="card-footer">
+              <span class="card-price">$${p.price.toLocaleString()}</span>
+              ${actionBtn}
+            </div>
+          </div>
+        </article>`;
+    }).join('');
+  }
+
+  // ════════════════════════════════════
+  // CART
+  // ════════════════════════════════════
+  function addToCart(id, isPreorder) {
+    const product = DB.products.find(p => p.id === id);
+    if (!product) return;
+    if (cart.some(c => c.id === id)) return;
+    cart.push({ ...product, qty: 1, isPreorder });
+    saveState();
+    updateCartCount();
+    renderCartDrawer();
+    renderProducts();
+    if (isPreorder) {
+      showToast(`${product.name} reserved`, 'purple');
+    } else {
+      showToast(`${product.name} added`);
+    }
+  }
+
+  function removeFromCart(id) {
+    cart = cart.filter(c => c.id !== id);
+    saveState();
+    updateCartCount();
+    renderCartDrawer();
+    renderProducts();
+  }
+
+  function changeQty(id, delta) {
+    const item = cart.find(c => c.id === id);
+    if (!item) return;
+    const maxQty = item.isPreorder ? 5 : item.stock;
+    item.qty = Math.max(1, Math.min(maxQty, item.qty + delta));
+    saveState();
+    renderCartDrawer();
+  }
+
+  function updateCartCount() {
+    const total = cart.reduce((s, c) => s + c.qty, 0);
+    document.getElementById('cart-count').textContent = total;
+  }
+
+  function renderCartDrawer() {
+    const container = document.getElementById('cart-items');
+    const footer = document.getElementById('cart-footer');
+
+    if (cart.length === 0) {
+      container.innerHTML = '<p class="cart-empty-msg">Your selection is empty.</p>';
+      footer.style.display = 'none';
+      return;
+    }
+
+    container.innerHTML = cart.map(item => `
+      <div class="cart-item">
+        <img src="${item.image}" alt="${item.name}" />
+        <div class="cart-item-info">
+          <p class="cart-item-cat">${item.category}</p>
+          <p class="cart-item-name">${item.name}</p>
+          <p class="cart-item-price">$${(item.price * item.qty).toLocaleString()}</p>
+          ${item.isPreorder ? '<p class="cart-item-type">Preorder · Ships 4–6 wks</p>' : ''}
+          <div class="cart-item-bottom">
+            <div class="qty-control">
+              <button class="qty-btn" onclick="changeQty(${item.id}, -1)">−</button>
+              <div class="qty-num">${item.qty}</div>
+              <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+            </div>
+          </div>
+        </div>
+        <button class="remove-item" onclick="removeFromCart(${item.id})">✕</button>
+      </div>`).join('');
+
+    const sum = cart.reduce((a, i) => a + i.price * i.qty, 0);
+    document.getElementById('cart-total-display').textContent = `$${sum.toLocaleString()}`;
+
+    const note = document.getElementById('cart-shipping-note');
+    if (sum >= 500) {
+      note.textContent = '✓ Free shipping applied';
+      note.className = 'cart-shipping-note free';
+    } else {
+      const needed = 500 - sum;
+      note.textContent = `Add $${needed.toLocaleString()} more for free shipping`;
+      note.className = 'cart-shipping-note';
+    }
+
+    footer.style.display = 'block';
+  }
+
+  // ════════════════════════════════════
+  // WISHLIST
+  // ════════════════════════════════════
+  function toggleWishlist(id) {
+    if (wishlist.includes(id)) {
+      wishlist = wishlist.filter(w => w !== id);
+      showToast('Removed from saved');
+    } else {
+      wishlist.push(id);
+      const p = DB.products.find(p => p.id === id);
+      showToast(`${p.name} saved`, 'green');
+    }
+    saveState();
+    updateWishlistCount();
+    renderProducts();
+    renderWishlistDrawer();
+  }
+
+  function updateWishlistCount() {
+    document.getElementById('wishlist-count').textContent = wishlist.length;
+  }
+
+  function renderWishlistDrawer() {
+    const container = document.getElementById('wishlist-items');
+    if (wishlist.length === 0) {
+      container.innerHTML = '<p class="wishlist-empty">No saved pieces yet.<br>Click ♡ on any item to save it.</p>';
+      return;
+    }
+    container.innerHTML = wishlist.map(id => {
+      const p = DB.products.find(p => p.id === id);
+      if (!p) return '';
+      const inCart = cart.some(c => c.id === id);
+      return `
+        <div class="wishlist-item">
+          <img src="${p.image}" alt="${p.name}" />
+          <div class="wishlist-item-info">
+            <p class="wishlist-item-name">${p.name}</p>
+            <p class="wishlist-item-price">$${p.price.toLocaleString()}</p>
+          </div>
+          ${!inCart ? `<button class="wishlist-move-btn" onclick="moveToCart(${p.id})">Add to cart</button>` : '<span style="font-size:0.6rem;color:var(--gold-dim);letter-spacing:0.1em;margin-right:8px;">In cart</span>'}
+          <button class="wishlist-remove" onclick="toggleWishlist(${p.id})">✕</button>
+        </div>`;
+    }).join('');
+  }
+
+  function moveToCart(id) {
+    const p = DB.products.find(p => p.id === id);
+    if (!p) return;
+    addToCart(id, p.preorderOnly);
+    renderWishlistDrawer();
+  }
+
+  // ════════════════════════════════════
+  // NOTIFY ME (out-of-stock)
+  // ════════════════════════════════════
+  function toggleNotify(id) {
+    const p = DB.products.find(p => p.id === id);
+    if (notifications.includes(id)) {
+      notifications = notifications.filter(n => n !== id);
+      showToast('Notification removed');
+    } else {
+      notifications.push(id);
+      showToast(`We'll notify you when ${p.name} is back`, 'green');
+    }
+    saveState();
+    renderProducts();
+  }
+
+  // ════════════════════════════════════
+  // CHECKOUT
+  // ════════════════════════════════════
+  function renderCheckoutSummary() {
+    const container = document.getElementById('summary-items');
+    const hasPreorder = cart.some(i => i.isPreorder);
+
+    container.innerHTML = cart.map(item => `
+      <div class="summary-item">
+        <img src="${item.image}" alt="${item.name}" />
+        <div class="summary-item-info">
+          <p class="summary-item-name">${item.name}</p>
+          <p class="summary-item-cat">${item.category}</p>
+          ${item.qty > 1 ? `<p class="summary-item-qty">Qty: ${item.qty}</p>` : ''}
+          ${item.isPreorder ? '<p class="summary-item-type">Preorder</p>' : ''}
+        </div>
+        <span class="summary-item-price">$${(item.price * item.qty).toLocaleString()}</span>
+      </div>`).join('');
+
+    const subtotal = cart.reduce((a, i) => a + i.price * i.qty, 0);
+    const shipping = subtotal >= 500 ? 'Free' : '$25';
+    const total = subtotal >= 500 ? subtotal : subtotal + 25;
+
+    document.getElementById('summary-subtotal').textContent = `$${subtotal.toLocaleString()}`;
+    document.getElementById('summary-shipping').textContent = shipping;
+    document.getElementById('summary-total').textContent = `$${total.toLocaleString()}`;
+
+    const notice = document.getElementById('preorder-notice');
+    notice.style.display = hasPreorder ? 'block' : 'none';
+  }
+
+  function placeOrder() {
+    const required = ['f-email','f-first','f-last','f-address','f-city','f-zip','f-country','f-card','f-expiry','f-cvv','f-cardname'];
+    for (const id of required) {
+      if (!document.getElementById(id).value.trim()) {
+        showToast('Please fill in all fields');
+        document.getElementById(id).focus();
+        return;
+      }
+    }
+
+    const hasPreorder = cart.some(i => i.isPreorder);
+    const orderNum = 'NOIR-' + Math.floor(100000 + Math.random() * 900000);
+    document.getElementById('order-number').textContent = `Order #${orderNum}`;
+
+    if (hasPreorder) {
+      document.getElementById('success-sub').innerHTML = `
+        Thank you for your order. In-stock pieces will be dispatched within 24 hours in our signature matte black boxes.<br><br>
+        Preorder items will ship separately within 4–6 weeks. A confirmation has been sent to your email.
+      `;
+    } else {
+      document.getElementById('success-sub').innerHTML = `
+        Thank you for your order. Your pieces will be carefully packaged in our signature matte black boxes and dispatched within 24 hours.<br><br>
+        A confirmation has been sent to your email.
+      `;
+    }
+
+    cart = [];
+    saveState();
+    updateCartCount();
+    showPage('success');
+  }
+
+  function startOver() {
+    renderProducts();
+    showPage('shop');
+  }
+
+  // ════════════════════════════════════
+  // OPEN / CLOSE DRAWERS
+  // ════════════════════════════════════
+  document.getElementById('cart-toggle').addEventListener('click', () => {
+    document.getElementById('cart-drawer').classList.add('open');
+    document.getElementById('cart-overlay').classList.add('open');
+  });
+
+  document.getElementById('wishlist-toggle').addEventListener('click', () => {
+    document.getElementById('wishlist-drawer').classList.add('open');
+    document.getElementById('cart-overlay').classList.add('open');
+  });
+
+  function closeCart() {
+    document.getElementById('cart-drawer').classList.remove('open');
+    document.getElementById('cart-overlay').classList.remove('open');
+  }
+
+  function closeWishlist() {
+    document.getElementById('wishlist-drawer').classList.remove('open');
+    document.getElementById('cart-overlay').classList.remove('open');
+  }
+
+  document.getElementById('close-cart').addEventListener('click', closeCart);
+  document.getElementById('close-wishlist').addEventListener('click', closeWishlist);
+  document.getElementById('cart-overlay').addEventListener('click', () => { closeCart(); closeWishlist(); });
+
+  // ════════════════════════════════════
+  // FILTERS & SORT
+  // ════════════════════════════════════
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeCategory = btn.dataset.cat;
+      renderProducts();
+    });
+  });
+
+  document.getElementById('sort-select').addEventListener('change', e => {
+    sortMode = e.target.value;
+    renderProducts();
+  });
+
+  // ════════════════════════════════════
+  // CARD FORMATTING
+  // ════════════════════════════════════
+  document.getElementById('f-card').addEventListener('input', e => {
+    let v = e.target.value.replace(/\D/g,'').substring(0,16);
+    e.target.value = v.replace(/(.{4})/g,'$1 ').trim();
+  });
+
+  document.getElementById('f-expiry').addEventListener('input', e => {
+    let v = e.target.value.replace(/\D/g,'').substring(0,4);
+    if (v.length >= 2) v = v.substring(0,2) + ' / ' + v.substring(2);
+    e.target.value = v;
+  });
+
+  // ════════════════════════════════════
+  // TOAST
+  // ════════════════════════════════════
+  let toastTimer;
+  function showToast(msg, type) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast';
+    if (type === 'purple') t.classList.add('toast-purple');
+    if (type === 'red')    t.classList.add('toast-red');
+    if (type === 'green')  t.classList.add('toast-green');
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+  }
+
+  // ════════════════════════════════════
+  // INIT
+  // ════════════════════════════════════
+  updateCartCount();
+  updateWishlistCount();
+  renderProducts();
+  renderCartDrawer();
+  renderWishlistDrawer();
+</script>
+</body>
+</html>
